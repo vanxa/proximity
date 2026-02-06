@@ -1,0 +1,53 @@
+plugins {
+    id 'java'
+    id 'org.openjfx.javafxplugin' version '0.1.0'
+    id 'application'
+    id 'org.javamodularity.moduleplugin' version '1.8.15'
+    id 'org.beryx.jlink' version '2.25.0'
+}
+
+group = 'com.vanxacloud.appstudio'
+version = '0.0.1.SNAPSHOT'
+
+repositories {
+    maven {
+        url "https://nexus.vanxacloud.com/repository/maven-public/"
+    }
+}
+
+dependencies {
+    implementation("org.openjfx:javafx-controls:21.0.2")
+    implementation("org.openjfx:javafx-fxml:19")
+
+    implementation("org.controlsfx:controlsfx:11.2.2")
+    implementation("com.dlsc.formsfx:formsfx-core:11.6.0") {
+        exclude group: "org.openjfx"
+    }
+    implementation("net.synedra:validatorfx:0.6.3") {
+        exclude group: "org.openjfx"
+    }
+    implementation("org.kordamp.ikonli:ikonli-javafx:12.4.0")
+    implementation("eu.hansolo:tilesfx:21.0.9") {
+        exclude group: "org.openjfx"
+    }
+
+    implementation "fr.brouillard.oss:cssfx:11.4.0"
+    
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation('org.junit.jupiter:junit-jupiter')
+    testRuntimeOnly('org.junit.platform:junit-platform-launcher')
+}
+
+test {
+    useJUnitPlatform()
+}
+
+javafx {
+    version = "21.0.6"
+    modules = ["javafx.controls", "javafx.fxml", "javafx.web", "javafx.swing", "javafx.media"]
+}
+
+application {
+    mainModule.set("com.vanxacloud.appstudio.proximity")
+    mainClass.set("com.vanxacloud.appstudio.proximity.Launcher")
+}

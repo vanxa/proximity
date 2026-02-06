@@ -1,0 +1,6 @@
+.bordered-region {
+    -fx-border-color: blue;
+    -fx-border-width: 3;
+    -fx-border-style: solid;
+    -fx-border-radius: 8px;
+}
