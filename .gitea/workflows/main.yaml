@@ -72,7 +72,7 @@ jobs:
         run: |
           git config --local user.email "idkonst@protonmail.com"
           git config --local user.name "Ivan Konstantinov"
-          git commit -a -m "Add badge"
+          git commit .github/badges -m "Add badge"
           git push origin main
       
       #      - name: Set up Docker Buildx
