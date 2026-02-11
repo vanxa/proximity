@@ -8,6 +8,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v4
         with:
@@ -67,14 +69,12 @@ jobs:
           workflow-summary-heading: JaCoCo Test Coverage Summary
 
       - name: Commit Badge
-        uses: actions/add-and-commit@v9
-        with:
-          add: '.github/badges'
-          author_name: Ivan Konstantinov
-          author_email: idkonst@protonmail.com
-          message: '(AUTO) Commit badges'
-          push: true
-
+        run: |
+          git config --local user.email "idkonst@protonmail.com"
+          git config --local user.name "Ivan Konstantinov"
+          git commit .github -m "Add badge"
+          git push origin main
+      
       #      - name: Set up Docker Buildx
       #        uses: actions/setup-buildx-action@v3
       #        with:
