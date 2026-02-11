@@ -17,7 +17,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/github_username/repo_name">
+  <a href="https://github.com/vanxa/proximity">
     <img src="images/logo.png" alt="Logo" width="50%" height="50%">
   </a>
 
@@ -26,10 +26,10 @@
   <p align="center">
     project_description
     <br />
-    <a href="https://github.com/github_username/repo_name"><strong>Explore the docs »</strong></a>
+    <a href="https://github.com/vanxa/proximity"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/github_username/repo_name">View Demo</a>
+    <a href="https://github.com/vanxa/proximity">View Demo</a>
     &middot;
     <a href="https://github.com/vanxa/proximity/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
     &middot;
@@ -112,7 +112,7 @@ This is an example of how to list things you need to use the software and how to
 1. Get a free API Key at [https://example.com](https://example.com)
 2. Clone the repo
    ```sh
-   git clone https://github.com/github_username/repo_name.git
+   git clone https://github.com/vanxa/proximity.git
    ```
 3. Install NPM packages
    ```sh
@@ -124,7 +124,7 @@ This is an example of how to list things you need to use the software and how to
    ```
 5. Change git remote url to avoid accidental pushes to base project
    ```sh
-   git remote set-url origin github_username/repo_name
+   git remote set-url origin vanxa/proximity
    git remote -v # confirm the changes
    ```
 
@@ -176,7 +176,7 @@ Don't forget to give the project a star! Thanks again!
 ### Top contributors:
 
 <a href="https://github.com/vanxa/proximity/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=github_username/repo_name" alt="contrib.rocks image" />
+  <img src="https://contrib.rocks/image?repo=vanxa/proximity" alt="contrib.rocks image" />
 </a>
 
 
@@ -195,7 +195,7 @@ Distributed under the project_license. See `LICENSE.txt` for more information.
 
 Your Name - [@twitter_handle](https://twitter.com/twitter_handle) - email@email_client.com
 
-Project Link: [https://github.com/github_username/repo_name](https://github.com/github_username/repo_name)
+Project Link: [https://github.com/vanxa/proximity](https://github.com/vanxa/proximity)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -214,9 +214,9 @@ Project Link: [https://github.com/github_username/repo_name](https://github.com/
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[forks-shield]: https://img.shields.io/github/forks/github_username/repo_name.svg?style=for-the-badge
+[forks-shield]: https://img.shields.io/github/forks/vanxa/proximity.svg?style=for-the-badge
 [forks-url]: https://github.com/vanxa/proximity/network/members
-[issues-shield]: https://img.shields.io/github/issues/github_username/repo_name.svg?style=for-the-badge
+[issues-shield]: https://img.shields.io/github/issues/vanxa/proximity.svg?style=for-the-badge
 [issues-url]: https://github.com/vanxa/proximity/issues
 [product-screenshot]: images/screenshot.png
 <!-- Shields.io badges. You can a comprehensive list with many more badges at: https://github.com/inttter/md-badges -->
