@@ -66,14 +66,14 @@ jobs:
           generate-workflow-summary: true
           workflow-summary-heading: JaCoCo Test Coverage Summary
 
-      - name: Commit Badge
-        uses: actions/add-and-commit@v9
-        with:
-          add: '.github/badges'
-          author_name: Ivan Konstantinov
-          author_email: idkonst@protonmail.com
-          message: '(AUTO) Commit badges'
-          push: true
+      #      - name: Commit Badge
+      #        uses: actions/add-and-commit@v9
+      #        with:
+      #          add: '.github/badges'
+      #          author_name: Ivan Konstantinov
+      #          author_email: idkonst@protonmail.com
+      #          message: '(AUTO) Commit badges'
+      #          push: true
 
       #      - name: Set up Docker Buildx
       #        uses: actions/setup-buildx-action@v3
