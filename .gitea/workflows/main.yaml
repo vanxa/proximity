@@ -75,6 +75,7 @@ jobs:
           author_name: Ivan Konstantinov
           author_email: idkonst@protonmail.com
           message: '(AUTO) Commit badges'
+          default_author: github_actions
           push: true
 
       #      - name: Set up Docker Buildx
