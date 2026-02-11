@@ -69,15 +69,12 @@ jobs:
           workflow-summary-heading: JaCoCo Test Coverage Summary
 
       - name: Commit Badge
-        uses: actions/add-and-commit@v9
-        with:
-          add: '.github/badges'
-          author_name: Ivan Konstantinov
-          author_email: idkonst@protonmail.com
-          message: '(AUTO) Commit badges'
-          default_author: github_actions
-          push: true
-
+        run: |
+          git config --local user.email "idkonst@protonmail.com"
+          git config --local user.name "Ivan Konstantinov"
+          git commit -a -m "Add badge"
+          git push origin main
+      
       #      - name: Set up Docker Buildx
       #        uses: actions/setup-buildx-action@v3
       #        with:
