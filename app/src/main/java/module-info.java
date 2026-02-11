@@ -11,5 +11,8 @@ module com.vanxacloud.appstudio.proximity {
     requires eu.hansolo.tilesfx;
 
     opens com.vanxacloud.appstudio.proximity to javafx.fxml;
+    opens com.vanxacloud.appstudio.proximity.wizard to javafx.fxml;
+    opens com.vanxacloud.appstudio.proximity.boot to javafx.fxml;
     exports com.vanxacloud.appstudio.proximity;
+    exports com.vanxacloud.appstudio.proximity.wizard;
 }
