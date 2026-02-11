@@ -9,14 +9,14 @@ plugins {
 group = 'com.vanxacloud.appstudio'
 version = '0.0.1.SNAPSHOT'
 
-repositories {
-    maven {
-        url "https://nexus.vanxacloud.com/repository/maven-public/"
+if(repositories.isEmpty()) {
+    repositories {
+        mavenCentral()
     }
 }
 
 dependencies {
-    implementation("org.openjfx:javafx-controls:21.0.2")
+    implementation("org.openjfx:javafx-controls:21.0.4")
     implementation("org.openjfx:javafx-fxml:19")
 
     implementation("org.controlsfx:controlsfx:11.2.2")
