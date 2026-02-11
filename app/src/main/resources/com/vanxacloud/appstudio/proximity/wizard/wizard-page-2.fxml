@@ -2,11 +2,11 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.vanxacloud.appstudio.proximity.boot.BootController"
             styleClass="bg-f5f5f5">
 
 
@@ -26,21 +26,7 @@
         </Label>
     </top>
     <center>
-        <Label maxWidth="Infinity" alignment="CENTER" style="-fx-wrap-text: true">
-            <text>
-                BorderPane allows you to place nodes at top, left, bottom, right
-                and center of the application window. The heading above is placed
-                in BorderPane's top position. This content is at center. We also
-                have a footer at the bottom.
-            </text>
-            <font>
-                <Font name="Arial" size="16">
-                </Font>
-            </font>
-            <padding>
-                <Insets top="20" left="80" bottom="20" right="80"></Insets>
-            </padding>
-        </Label>
+        <TextArea fx:id="text"></TextArea>
     </center>
     <bottom>
         <Label maxWidth="Infinity" alignment="BOTTOM_CENTER"
