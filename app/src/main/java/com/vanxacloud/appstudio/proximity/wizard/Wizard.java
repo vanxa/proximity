@@ -7,6 +7,7 @@ import javafx.scene.control.ButtonType;
 import org.controlsfx.dialog.WizardPane;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -37,7 +38,11 @@ public class Wizard {
             WizardPane pane = new WizardPane();
             pane.getStylesheets().add("/style.css");
             pane.getStyleClass().remove("wizard-pane"); // Remove annoying png in default wizard-pane
-            pane.setContent(FXMLLoader.load(ProximityApp.class.getResource(String.format("wizard/wizard-page-%d.fxml", page))));
+            URL res = ProximityApp.class.getResource(String.format("wizard/page%d/page.fxml", page));
+            if (res == null) {
+                throw new RuntimeException("Unable to locate wizard page");
+            }
+            pane.setContent(FXMLLoader.load(res));
             pages.add(pane);
         }
         // Show wizard and handle result

@@ -9,6 +9,8 @@ module com.vanxacloud.appstudio.proximity {
     requires net.synedra.validatorfx;
     requires org.kordamp.ikonli.javafx;
     requires eu.hansolo.tilesfx;
+    requires org.apache.commons.lang3;
+    requires org.slf4j;
 
     opens com.vanxacloud.appstudio.proximity to javafx.fxml;
     opens com.vanxacloud.appstudio.proximity.wizard to javafx.fxml;
