@@ -2,7 +2,7 @@ module com.vanxacloud.appstudio.proximity {
     requires javafx.controls;
     requires javafx.fxml;
 
-    
+
     requires javafx.web;
     requires fr.brouillard.oss.cssfx;
     requires org.controlsfx.controls;
@@ -12,11 +12,9 @@ module com.vanxacloud.appstudio.proximity {
     requires eu.hansolo.tilesfx;
     requires org.apache.commons.lang3;
     requires org.slf4j;
+    requires java.desktop;
 
     opens com.vanxacloud.appstudio.proximity to javafx.fxml;
     opens com.vanxacloud.appstudio.proximity.wizard to javafx.fxml;
     opens com.vanxacloud.appstudio.proximity.boot to javafx.fxml;
-    exports com.vanxacloud.appstudio.proximity;
-    exports com.vanxacloud.appstudio.proximity.wizard;
-    exports com.vanxacloud.appstudio.proximity.wizard.page.controller;
 }

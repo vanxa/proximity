@@ -5,6 +5,10 @@
     /*-fx-border-radius: 8px;*/
 }
 
+.wizard-pane {
+    /*-fx-graphic: url("wizard-page.png");*/
+}
+
 .p-10 {
     -fx-label-padding: 10px;
 }

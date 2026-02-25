@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            styleClass="bg-f5f5f5"
+            fx:controller="com.vanxacloud.appstudio.proximity.wizard.page.controller.SettingsController">
+
+    <fx:define>
+        <ToggleGroup fx:id="settingsChoice"/>
+    </fx:define>
+
+    <top>
+        <Label styleClass="p-20" alignment="BASELINE_LEFT">Welcome to Proximity. Use the options below to create or open a project</Label>
+    </top>
+
+    <center>
+        <VBox>
+            <RadioButton toggleGroup="$settingsChoice">Use defaults</RadioButton>
+            <Separator styleClass="p-10-0-10-0"/>
+            <RadioButton fx:id="settingsFromProjectRadioButton" toggleGroup="$settingsChoice">Use settings saved with project</RadioButton>
+            <Separator styleClass="p-10-0-10-0"/>
+            <HBox styleClass="sp-50">
+                <RadioButton toggleGroup="$settingsChoice">Load from configuration file</RadioButton>
+                <VBox HBox.hgrow="ALWAYS">
+                    <HBox styleClass="sp-5">
+                        <Label text="File:" minWidth="40" labelFor="$existingSettingsFilePath" alignment="CENTER_RIGHT"/>
+                        <TextField fx:id="existingSettingsFilePath" HBox.hgrow="ALWAYS"/>
+                        <Button id="openProjectButton" text="Choose File" onAction="#handleOpenSettingsFile"/>
+                    </HBox>
+                </VBox>
+            </HBox>
+        </VBox>
+
+
+    </center>
+</BorderPane>

@@ -1,10 +1,15 @@
 package com.vanxacloud.appstudio.proximity.wizard;
 
 import com.vanxacloud.appstudio.proximity.ProximityApp;
+import com.vanxacloud.appstudio.proximity.wizard.page.controller.ProjectController;
+import com.vanxacloud.appstudio.proximity.wizard.page.controller.SettingsController;
+import com.vanxacloud.appstudio.proximity.wizard.page.state.WizardPageState;
 import javafx.collections.ObservableMap;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ButtonType;
 import org.controlsfx.dialog.WizardPane;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.net.URL;
@@ -14,16 +19,10 @@ import java.util.Optional;
 
 public class Wizard {
 
-
-    private final int numPages;
     private org.controlsfx.dialog.Wizard wizard;
+    private static final Logger log = LoggerFactory.getLogger(Wizard.class);
 
     public Wizard() {
-        this(1);
-    }
-
-    public Wizard(int numPages) {
-        this.numPages = numPages;
         try {
             initializeWizard();
         } catch (IOException e) {
@@ -34,20 +33,37 @@ public class Wizard {
 
     private void initializeWizard() throws IOException {
         List<WizardPane> pages = new ArrayList<>();
-        for (int page = 1; page <= numPages; page++) {
+        this.wizard = new org.controlsfx.dialog.Wizard();
+        this.wizard.getDialog().setResizable(true);
+        WizardPageState state = new WizardPageState();
+        for (String page : new String[]{"projects.fxml", "settings.fxml"}) {
             WizardPane pane = new WizardPane();
             pane.getStylesheets().add("/style.css");
             pane.getStyleClass().remove("wizard-pane"); // Remove annoying png in default wizard-pane
-            URL res = ProximityApp.class.getResource(String.format("wizard/page%d/page.fxml", page));
+            URL res = ProximityApp.class.getResource(String.format("wizard/%s", page));
             if (res == null) {
                 throw new RuntimeException("Unable to locate wizard page");
             }
-            pane.setContent(FXMLLoader.load(res));
+            FXMLLoader loader = new FXMLLoader(res);
+            loader.setControllerFactory(clazz -> {
+                try {
+                    if (clazz.isAssignableFrom(ProjectController.class)) {
+                        return new ProjectController(state);
+                    }
+                    if (clazz.isAssignableFrom(SettingsController.class)) {
+                        return new SettingsController(state);
+                    }
+                    return clazz.getDeclaredConstructor().newInstance();
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+
+            });
+            pane.setContent(loader.load());
             pages.add(pane);
         }
         // Show wizard and handle result
-        this.wizard = new org.controlsfx.dialog.Wizard();
-        this.wizard.getDialog().setResizable(true);
+
         wizard.setTitle("Wizard");
         wizard.setFlow(new org.controlsfx.dialog.Wizard.LinearFlow(pages));
     }
