@@ -1,9 +1,9 @@
-package com.vanxacloud.appstudio.proximity.wizard;
+package com.vanxacloud.appstudio.proximity.fx.control.wizard;
 
 import com.vanxacloud.appstudio.proximity.ProximityApp;
-import com.vanxacloud.appstudio.proximity.wizard.page.controller.ProjectController;
-import com.vanxacloud.appstudio.proximity.wizard.page.controller.SettingsController;
-import com.vanxacloud.appstudio.proximity.wizard.page.state.WizardPageState;
+import com.vanxacloud.appstudio.proximity.fx.control.wizard.page.AbstractWizardDialogPage;
+import com.vanxacloud.appstudio.proximity.fx.control.wizard.page.ProjectPage;
+import com.vanxacloud.appstudio.proximity.fx.control.wizard.page.SettingsPage;
 import javafx.collections.ObservableMap;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ButtonType;
@@ -35,37 +35,43 @@ public class Wizard {
         List<WizardPane> pages = new ArrayList<>();
         this.wizard = new org.controlsfx.dialog.Wizard();
         this.wizard.getDialog().setResizable(true);
-        WizardPageState state = new WizardPageState();
-        for (String page : new String[]{"projects.fxml", "settings.fxml"}) {
-            WizardPane pane = new WizardPane();
-            pane.getStylesheets().add("/style.css");
-            pane.getStyleClass().remove("wizard-pane"); // Remove annoying png in default wizard-pane
-            URL res = ProximityApp.class.getResource(String.format("wizard/%s", page));
-            if (res == null) {
-                throw new RuntimeException("Unable to locate wizard page");
-            }
-            FXMLLoader loader = new FXMLLoader(res);
-            loader.setControllerFactory(clazz -> {
-                try {
-                    if (clazz.isAssignableFrom(ProjectController.class)) {
-                        return new ProjectController(state);
-                    }
-                    if (clazz.isAssignableFrom(SettingsController.class)) {
-                        return new SettingsController(state);
-                    }
-                    return clazz.getDeclaredConstructor().newInstance();
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
-                }
 
-            });
-            pane.setContent(loader.load());
-            pages.add(pane);
-        }
-        // Show wizard and handle result
-
+        WizardPane projectPane = createProjectPage();
+        pages.add(projectPane);
+        pages.add(createSettingsPage(projectPane));
         wizard.setTitle("Wizard");
         wizard.setFlow(new org.controlsfx.dialog.Wizard.LinearFlow(pages));
+    }
+
+    private WizardPane createSettingsPage(WizardPane projectPane) throws IOException {
+        WizardPane pane = createWizardPane();
+        SettingsPage settingsPage = new SettingsPage(pane, projectPane);
+        return loadPane(pane, "wizard/settings.fxml", settingsPage);
+
+    }
+
+    private WizardPane createProjectPage() throws IOException {
+        WizardPane pane = createWizardPane();
+        ProjectPage projectPage = new ProjectPage(pane);
+        return loadPane(pane, "wizard/projects.fxml", projectPage);
+    }
+
+    private WizardPane loadPane(WizardPane pane, String resourcePath, AbstractWizardDialogPage page) throws IOException {
+        URL res = ProximityApp.class.getResource(resourcePath);
+        if (res == null) {
+            throw new RuntimeException("Unable to locate wizard page");
+        }
+        FXMLLoader loader = new FXMLLoader(res);
+        loader.setControllerFactory(clazz -> page);
+        pane.setContent(loader.load());
+        return pane;
+    }
+
+    private WizardPane createWizardPane() {
+        WizardPane pane = new WizardPane();
+        pane.getStylesheets().add("/style.css");
+        pane.getStyleClass().remove("wizard-pane"); // Remove annoying png in default wizard-pane
+        return pane;
     }
 
     public Settings show() {

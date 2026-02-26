@@ -1,6 +1,6 @@
 package com.vanxacloud.appstudio.proximity;
 
-import com.vanxacloud.appstudio.proximity.wizard.Wizard;
+import com.vanxacloud.appstudio.proximity.fx.control.wizard.Wizard;
 import fr.brouillard.oss.cssfx.CSSFX;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

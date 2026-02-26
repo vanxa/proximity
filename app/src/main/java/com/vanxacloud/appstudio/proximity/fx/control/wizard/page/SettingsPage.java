@@ -1,32 +1,35 @@
-package com.vanxacloud.appstudio.proximity.wizard.page.controller;
+package com.vanxacloud.appstudio.proximity.fx.control.wizard.page;
 
-import com.vanxacloud.appstudio.proximity.wizard.page.state.WizardPageState;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import org.controlsfx.dialog.WizardPane;
 
-public class SettingsController {
-
-    private final WizardPageState state;
+public class SettingsPage extends AbstractWizardDialogPage {
+    
+    private final WizardPane projectWizardPane;
     @FXML
     public TextField existingSettingsFilePath;
     @FXML
     public RadioButton settingsFromProjectRadioButton;
 
-    public SettingsController(WizardPageState state) {
-        this.state = state;
+    public SettingsPage(WizardPane settingsWizardPane, WizardPane projectWizardPane) {
+        super(settingsWizardPane);
+        this.projectWizardPane = projectWizardPane;
 
     }
 
     @FXML
     private void initialize() {
-        if (this.state.getExistingProjectRadioButton() != null) {
-            this.settingsFromProjectRadioButton.disableProperty().bind(this.state.getExistingProjectRadioButton().selectedProperty().not());
-            this.settingsFromProjectRadioButton.selectedProperty().bind(this.state.getExistingProjectRadioButton().selectedProperty());
+        Node existingProjectNode = projectWizardPane.lookup("#existingProjectRadioButton");
+        if (existingProjectNode instanceof RadioButton existingProjectNodeRadioButton) {
+            this.settingsFromProjectRadioButton.disableProperty().bind(existingProjectNodeRadioButton.selectedProperty().not());
+            this.settingsFromProjectRadioButton.selectedProperty().bind(existingProjectNodeRadioButton.selectedProperty());
         }
     }
 

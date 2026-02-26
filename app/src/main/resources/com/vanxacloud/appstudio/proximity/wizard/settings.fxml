@@ -5,7 +5,7 @@
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             styleClass="bg-f5f5f5"
-            fx:controller="com.vanxacloud.appstudio.proximity.wizard.page.controller.SettingsController">
+            fx:controller="com.vanxacloud.appstudio.proximity.fx.control.wizard.page.SettingsPage">
 
     <fx:define>
         <ToggleGroup fx:id="settingsChoice"/>

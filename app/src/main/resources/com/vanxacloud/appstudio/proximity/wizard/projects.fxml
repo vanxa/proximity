@@ -5,10 +5,11 @@
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             styleClass="bg-f5f5f5"
-            fx:controller="com.vanxacloud.appstudio.proximity.wizard.page.controller.ProjectController">
+            fx:controller="com.vanxacloud.appstudio.proximity.fx.control.wizard.page.ProjectPage">
 
     <fx:define>
         <ToggleGroup fx:id="projectChoice"/>
+
     </fx:define>
 
     <top>
@@ -22,7 +23,7 @@
             <HBox styleClass="sp-50">
                 <VBox styleClass="sp-5" HBox.hgrow="ALWAYS">
                     <RadioButton fx:id="newProjectRadioButton" toggleGroup="$projectChoice" onMouseClicked="#setDefaultNewProject">New project on disk</RadioButton>
-                    <Label fx:id="newProjectErrorLabel" labelFor="$newProjectRadioButton" visible="false"/>
+                    <Label fx:id="newProjectErrorLabel" labelFor="$newProjectRadioButton" visible="true"/>
                 </VBox>
                 <VBox styleClass="sp-5" HBox.hgrow="ALWAYS">
                     <HBox styleClass="sp-5">

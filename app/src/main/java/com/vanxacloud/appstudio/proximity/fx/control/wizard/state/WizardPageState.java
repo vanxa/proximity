@@ -1,4 +1,4 @@
-package com.vanxacloud.appstudio.proximity.wizard.page.state;
+package com.vanxacloud.appstudio.proximity.fx.control.wizard.state;
 
 import javafx.scene.control.RadioButton;
 

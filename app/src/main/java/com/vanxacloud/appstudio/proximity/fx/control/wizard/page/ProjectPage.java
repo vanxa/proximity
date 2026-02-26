@@ -1,10 +1,10 @@
-package com.vanxacloud.appstudio.proximity.wizard.page.controller;
+package com.vanxacloud.appstudio.proximity.fx.control.wizard.page;
 
 import com.vanxacloud.appstudio.proximity.config.Constants;
-import com.vanxacloud.appstudio.proximity.wizard.page.state.WizardPageState;
 import javafx.event.ActionEvent;
 import javafx.event.EventTarget;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
@@ -12,14 +12,15 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import net.synedra.validatorfx.Decoration;
+import net.synedra.validatorfx.ValidationMessage;
+import org.controlsfx.dialog.WizardPane;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
-public class ProjectController {
-
-    private final WizardPageState state;
+public class ProjectPage extends AbstractWizardDialogPage {
 
     /*
     ------------------------------------------------------------------------
@@ -59,26 +60,27 @@ public class ProjectController {
     public Label existingProjectErrorLabel;
 
 
-    public ProjectController(WizardPageState state) {
-        this.state = state;
+    public ProjectPage(WizardPane wizardPane) {
+        super(wizardPane);
     }
 
     @FXML
     private void initialize() {
-        this.state.setExistingProjectRadioButton(existingProjectRadioButton);
 
-        existingProjectFilePath.focusedProperty().addListener((obs, oldVal, newVal) -> {
-            if (!newVal) {
-                if (textField.getText().isEmpty()) {
-                    textField.setStyle("-fx-border-color: red;");
-                    errorLabel.setText("Field is required");
-                } else {
-                    textField.setStyle("");
-                    errorLabel.setText("");
-                }
+    }
+
+    private Decoration sumDecorator(ValidationMessage m) {
+        return new Decoration() {
+            @Override
+            public void remove(Node target) {
+                ((Label) target).setText("");
             }
-        });
 
+            @Override
+            public void add(Node target) {
+                ((Label) target).setText("ERR - " + m.getText());
+            }
+        };
     }
 
     @FXML
