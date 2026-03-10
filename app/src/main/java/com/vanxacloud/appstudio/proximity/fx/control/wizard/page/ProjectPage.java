@@ -1,9 +1,11 @@
 package com.vanxacloud.appstudio.proximity.fx.control.wizard.page;
 
 import com.vanxacloud.appstudio.proximity.config.Constants;
-import com.vanxacloud.appstudio.proximity.config.LanguageConfig;
+import com.vanxacloud.appstudio.proximity.fx.validation.decoration.LabelDecorator;
 import javafx.beans.binding.BooleanExpression;
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.collections.MapChangeListener;
 import javafx.event.ActionEvent;
 import javafx.event.EventTarget;
 import javafx.fxml.FXML;
@@ -15,14 +17,18 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import net.synedra.validatorfx.Validator;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
-public class ProjectPage implements WizardDialogPage {
+@Component
+public class ProjectPage extends WizardDialogPage {
 
+
+    BooleanProperty initializedProjectName = new SimpleBooleanProperty(false);
     /*
         ------------------------------------------------------------------------
         ------------------New Project ------------------------------------------
@@ -30,8 +36,6 @@ public class ProjectPage implements WizardDialogPage {
         ------------------Project File: --------------------------------------------
         ------------------Error label ------------------------------------------
          */
-    @Autowired
-    private LanguageConfig languageConfig;
 
     @FXML
     public RadioButton newProjectRadioButton;
@@ -69,10 +73,13 @@ public class ProjectPage implements WizardDialogPage {
         Validator validator = new Validator();
         validator.createCheck()
                 .dependsOn("newProject", newProjectRadioButton.selectedProperty())
+                .dependsOn("initializedNewProjectName", initializedProjectName)
+                .dependsOn("newProjectText", newProjectName.textProperty())
+                .dependsOn("newProjectFilePath", newProjectFilePath.textProperty())
                 .withMethod(c -> {
                     if (newProjectRadioButton.isSelected()) {
                         if (newProjectFilePath.getText().isEmpty() || newProjectName.getText().isEmpty()) {
-                            c.error("Please fill out all the fields");
+                            c.error("Invalid project name");
                             valid.set(false);
                         } else {
                             valid.set(true);
@@ -81,10 +88,30 @@ public class ProjectPage implements WizardDialogPage {
                         valid.set(true);
                     }
                 })
+                .decoratingWith(LabelDecorator::new)
                 .decorates(newProjectErrorLabel)
                 .immediate();
 
-//        getWizard().invalidProperty().bind(validator.containsErrorsProperty());
+        validator.createCheck()
+                .dependsOn("existingProject", existingProjectRadioButton.selectedProperty())
+                .dependsOn("existingProjectFilePath", existingProjectFilePath.textProperty())
+                .withMethod(context -> {
+                    boolean isValid = true;
+                    if (existingProjectRadioButton.isSelected()) {
+                        if (existingProjectFilePath.getText().isEmpty()) {
+                            isValid = false;
+                        } else {
+                            isValid = Paths.get(existingProjectFilePath.getText()).toFile().exists();
+                        }
+                    }
+                    if (!isValid) {
+                        context.error("Choose a valid file");
+                    }
+                    valid.set(isValid);
+                })
+                .decoratingWith(LabelDecorator::new)
+                .decorates(existingProjectErrorLabel)
+                .immediate();
     }
 
     @FXML
@@ -118,12 +145,19 @@ public class ProjectPage implements WizardDialogPage {
             String date = DateTimeFormatter.ofPattern("MM-dd-yyyy", Locale.getDefault()).format(LocalDateTime.now());
             newProjectFilePath.setText(String.format("%s.%s", date, Constants.PROJECT_FILE_EXTENSION));
             newProjectName.setText(date);
+            initializedProjectName.set(true);
         }
 
     }
 
+
     @Override
     public BooleanExpression isValid() {
         return valid;
+    }
+
+    @Override
+    void stateChanged(MapChangeListener.Change<? extends String, ?> change) {
+
     }
 }

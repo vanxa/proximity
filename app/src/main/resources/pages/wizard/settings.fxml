@@ -17,16 +17,17 @@
 
     <center>
         <VBox>
-            <RadioButton toggleGroup="$settingsChoice">Use defaults</RadioButton>
+            <RadioButton toggleGroup="$settingsChoice" selected="true">Use defaults</RadioButton>
             <Separator styleClass="p-10-0-10-0"/>
-            <RadioButton fx:id="settingsFromProjectRadioButton" toggleGroup="$settingsChoice">Use settings saved with project</RadioButton>
+            <RadioButton toggleGroup="$settingsChoice">Use settings saved with project</RadioButton>
             <Separator styleClass="p-10-0-10-0"/>
             <HBox styleClass="sp-50">
-                <RadioButton toggleGroup="$settingsChoice">Load from configuration file</RadioButton>
+                <RadioButton fx:id="existingSettingsFilePathRadioButton" toggleGroup="$settingsChoice">Load from configuration file</RadioButton>
+                <Label fx:id="existingSettingsFileErrorLabel" labelFor="$existingSettingsFilePathRadioButton" styleClass="err"/>
                 <VBox HBox.hgrow="ALWAYS">
                     <HBox styleClass="sp-5">
-                        <Label text="File:" minWidth="40" labelFor="$existingSettingsFilePath" alignment="CENTER_RIGHT"/>
                         <TextField fx:id="existingSettingsFilePath" HBox.hgrow="ALWAYS"/>
+                        <Label text="File:" minWidth="40" labelFor="$existingSettingsFilePath" alignment="CENTER_RIGHT"/>
                         <Button id="openProjectButton" text="Choose File" onAction="#handleOpenSettingsFile"/>
                     </HBox>
                 </VBox>

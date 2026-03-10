@@ -37,3 +37,8 @@
 .p-10-0-10-0 {
     -fx-padding: 10 0 10 0;
 }
+
+.err {
+    -fx-text-fill: red;
+    -fx-font-style: italic;
+}

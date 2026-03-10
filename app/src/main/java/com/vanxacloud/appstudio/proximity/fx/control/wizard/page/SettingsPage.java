@@ -1,39 +1,62 @@
 package com.vanxacloud.appstudio.proximity.fx.control.wizard.page;
 
+import com.vanxacloud.appstudio.proximity.fx.validation.decoration.LabelDecorator;
 import javafx.beans.binding.BooleanExpression;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.collections.MapChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import org.controlsfx.dialog.WizardPane;
+import net.synedra.validatorfx.Validator;
+import org.springframework.stereotype.Component;
 
-public class SettingsPage implements WizardDialogPage {
+import java.nio.file.Paths;
 
-    private final WizardPane projectWizardPane;
+@Component
+public class SettingsPage extends WizardDialogPage {
+
+    private final SimpleBooleanProperty valid = new SimpleBooleanProperty(true);
+    /*
+           ------------------------------------------------------------------------
+           ------------------Load from configuration file ------------------------------------------
+           ------------------File: --------------------------------------------
+           ------------------Error label ------------------------------------------
+            */
+    @FXML
+    public RadioButton existingSettingsFilePathRadioButton;
     @FXML
     public TextField existingSettingsFilePath;
     @FXML
-    public RadioButton settingsFromProjectRadioButton;
-    private final BooleanExpression valid;
-
-    public SettingsPage(WizardPane projectWizardPane) {
-        this.projectWizardPane = projectWizardPane;
-        this.valid = new SimpleBooleanProperty(true);
-
-    }
+    public Label existingSettingsFileErrorLabel;
 
     @FXML
     private void initialize() {
-        Node existingProjectNode = projectWizardPane.lookup("#existingProjectRadioButton");
-        if (existingProjectNode instanceof RadioButton existingProjectNodeRadioButton) {
-            this.settingsFromProjectRadioButton.disableProperty().bind(existingProjectNodeRadioButton.selectedProperty().not());
-            this.settingsFromProjectRadioButton.selectedProperty().bind(existingProjectNodeRadioButton.selectedProperty());
-        }
+        Validator validator = new Validator();
+        validator.createCheck()
+                .dependsOn("existingProject", existingSettingsFilePathRadioButton.selectedProperty())
+                .dependsOn("existingProjectFilePath", existingSettingsFilePath.textProperty())
+                .withMethod(context -> {
+                    boolean isValid = true;
+                    if (existingSettingsFilePathRadioButton.isSelected()) {
+                        if (existingSettingsFilePath.getText().isEmpty()) {
+                            isValid = false;
+                        } else {
+                            isValid = Paths.get(existingSettingsFilePath.getText()).toFile().exists();
+                        }
+                    }
+                    if (!isValid) {
+                        context.error("Choose a valid file");
+                    }
+                    valid.set(isValid);
+                })
+                .decoratingWith(LabelDecorator::new)
+                .decorates(existingSettingsFileErrorLabel)
+                .immediate();
     }
 
     @FXML
@@ -53,4 +76,10 @@ public class SettingsPage implements WizardDialogPage {
     public BooleanExpression isValid() {
         return valid;
     }
+
+    @Override
+    void stateChanged(MapChangeListener.Change<? extends String, ?> change) {
+        change.getMap().get("existingProjectRadioButton");
+    }
+
 }

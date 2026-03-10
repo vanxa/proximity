@@ -1,5 +1,6 @@
 package com.vanxacloud.appstudio.proximity;
 
+import com.vanxacloud.appstudio.proximity.event.Events;
 import fr.brouillard.oss.cssfx.CSSFX;
 import javafx.application.Application;
 import javafx.application.HostServices;
@@ -7,7 +8,6 @@ import javafx.application.Platform;
 import javafx.stage.Stage;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ApplicationContextInitializer;
-import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.GenericApplicationContext;
 
@@ -35,24 +35,13 @@ public class JavaFxApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         CSSFX.start();
-        this.context.publishEvent(new StageReadyEvent(stage));
+        this.context.publishEvent(new Events.ReadyForWizardEvent(stage));
     }
 
     @Override
     public void stop() throws Exception {
         this.context.close();
         Platform.exit();
-    }
-
-    public static class StageReadyEvent extends ApplicationEvent {
-
-        public StageReadyEvent(Object source) {
-            super(source);
-        }
-
-        public Stage getStage() {
-            return Stage.class.cast(getSource());
-        }
     }
 }
 
