@@ -1,5 +1,7 @@
 package com.vanxacloud.appstudio.proximity.fx.control.wizard.page;
 
+import javafx.beans.binding.BooleanExpression;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -10,17 +12,18 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.controlsfx.dialog.WizardPane;
 
-public class SettingsPage extends AbstractWizardDialogPage {
-    
+public class SettingsPage implements WizardDialogPage {
+
     private final WizardPane projectWizardPane;
     @FXML
     public TextField existingSettingsFilePath;
     @FXML
     public RadioButton settingsFromProjectRadioButton;
+    private final BooleanExpression valid;
 
-    public SettingsPage(WizardPane settingsWizardPane, WizardPane projectWizardPane) {
-        super(settingsWizardPane);
+    public SettingsPage(WizardPane projectWizardPane) {
         this.projectWizardPane = projectWizardPane;
+        this.valid = new SimpleBooleanProperty(true);
 
     }
 
@@ -46,5 +49,8 @@ public class SettingsPage extends AbstractWizardDialogPage {
 
     }
 
-
+    @Override
+    public BooleanExpression isValid() {
+        return valid;
+    }
 }

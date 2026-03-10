@@ -1,9 +1,9 @@
 package com.vanxacloud.appstudio.proximity.fx.control.wizard;
 
 import com.vanxacloud.appstudio.proximity.ProximityApp;
-import com.vanxacloud.appstudio.proximity.fx.control.wizard.page.AbstractWizardDialogPage;
 import com.vanxacloud.appstudio.proximity.fx.control.wizard.page.ProjectPage;
 import com.vanxacloud.appstudio.proximity.fx.control.wizard.page.SettingsPage;
+import com.vanxacloud.appstudio.proximity.fx.control.wizard.page.WizardDialogPage;
 import javafx.collections.ObservableMap;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ButtonType;
@@ -19,11 +19,13 @@ import java.util.Optional;
 
 public class Wizard {
 
-    private org.controlsfx.dialog.Wizard wizard;
+    private final org.controlsfx.dialog.Wizard wizard;
     private static final Logger log = LoggerFactory.getLogger(Wizard.class);
+
 
     public Wizard() {
         try {
+            this.wizard = new org.controlsfx.dialog.Wizard();
             initializeWizard();
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -33,7 +35,6 @@ public class Wizard {
 
     private void initializeWizard() throws IOException {
         List<WizardPane> pages = new ArrayList<>();
-        this.wizard = new org.controlsfx.dialog.Wizard();
         this.wizard.getDialog().setResizable(true);
 
         WizardPane projectPane = createProjectPage();
@@ -45,18 +46,21 @@ public class Wizard {
 
     private WizardPane createSettingsPage(WizardPane projectPane) throws IOException {
         WizardPane pane = createWizardPane();
-        SettingsPage settingsPage = new SettingsPage(pane, projectPane);
+
+        WizardDialogPage settingsPage = new SettingsPage(projectPane);
+        wizard.invalidProperty().bind(settingsPage.isValid().not());
         return loadPane(pane, "wizard/settings.fxml", settingsPage);
 
     }
 
     private WizardPane createProjectPage() throws IOException {
         WizardPane pane = createWizardPane();
-        ProjectPage projectPage = new ProjectPage(pane);
+        WizardDialogPage projectPage = new ProjectPage();
+        wizard.invalidProperty().bind(projectPage.isValid().not());
         return loadPane(pane, "wizard/projects.fxml", projectPage);
     }
 
-    private WizardPane loadPane(WizardPane pane, String resourcePath, AbstractWizardDialogPage page) throws IOException {
+    private WizardPane loadPane(WizardPane pane, String resourcePath, WizardDialogPage page) throws IOException {
         URL res = ProximityApp.class.getResource(resourcePath);
         if (res == null) {
             throw new RuntimeException("Unable to locate wizard page");

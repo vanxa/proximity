@@ -1,10 +1,11 @@
 package com.vanxacloud.appstudio.proximity.fx.control.wizard.page;
 
 import com.vanxacloud.appstudio.proximity.config.Constants;
+import javafx.beans.binding.BooleanExpression;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventTarget;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
@@ -12,23 +13,21 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import net.synedra.validatorfx.Decoration;
-import net.synedra.validatorfx.ValidationMessage;
-import org.controlsfx.dialog.WizardPane;
+import net.synedra.validatorfx.Validator;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
-public class ProjectPage extends AbstractWizardDialogPage {
+public class ProjectPage implements WizardDialogPage {
 
     /*
-    ------------------------------------------------------------------------
-    ------------------New Project ------------------------------------------
-    ------------------Project Name: --------------------------------------------
-    ------------------Project File: --------------------------------------------
-    ------------------Error label ------------------------------------------
-     */
+        ------------------------------------------------------------------------
+        ------------------New Project ------------------------------------------
+        ------------------Project Name: --------------------------------------------
+        ------------------Project File: --------------------------------------------
+        ------------------Error label ------------------------------------------
+         */
     @FXML
     public RadioButton newProjectRadioButton;
 
@@ -58,29 +57,29 @@ public class ProjectPage extends AbstractWizardDialogPage {
 
     @FXML
     public Label existingProjectErrorLabel;
-
-
-    public ProjectPage(WizardPane wizardPane) {
-        super(wizardPane);
-    }
+    private final SimpleBooleanProperty valid = new SimpleBooleanProperty(true);
 
     @FXML
     private void initialize() {
+        Validator validator = new Validator();
+        validator.createCheck()
+                .dependsOn("newProject", newProjectRadioButton.selectedProperty())
+                .withMethod(c -> {
+                    if (newProjectRadioButton.isSelected()) {
+                        if (newProjectFilePath.getText().isEmpty() || newProjectName.getText().isEmpty()) {
+                            c.error("Please fill out all the fields");
+                            valid.set(false);
+                        } else {
+                            valid.set(true);
+                        }
+                    } else {
+                        valid.set(true);
+                    }
+                })
+                .decorates(newProjectErrorLabel)
+                .immediate();
 
-    }
-
-    private Decoration sumDecorator(ValidationMessage m) {
-        return new Decoration() {
-            @Override
-            public void remove(Node target) {
-                ((Label) target).setText("");
-            }
-
-            @Override
-            public void add(Node target) {
-                ((Label) target).setText("ERR - " + m.getText());
-            }
-        };
+//        getWizard().invalidProperty().bind(validator.containsErrorsProperty());
     }
 
     @FXML
@@ -116,5 +115,10 @@ public class ProjectPage extends AbstractWizardDialogPage {
             newProjectName.setText(date);
         }
 
+    }
+
+    @Override
+    public BooleanExpression isValid() {
+        return valid;
     }
 }
