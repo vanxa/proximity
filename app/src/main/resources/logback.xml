@@ -1,5 +1,5 @@
 <configuration scan="true" scanPeriod="1 minute">
-    <property resource="${dataDir}/config/proximity.properties"/>
+    <!--    <property resource="${dataDir}/config/proximity.properties"/>-->
 
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${dataDir}/logs/proximity.log</file>
@@ -11,6 +11,12 @@
         </rollingPolicy>
         <encoder>
             <pattern>%date %level [%thread] %logger{10} [%file:%line] [%X{}] %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%date %highlight(%level) [%thread] %logger{10} [%file:%line] [%X{}] %msg%n</pattern>
         </encoder>
     </appender>
 

@@ -1,6 +1,7 @@
 package com.vanxacloud.appstudio.proximity.fx.control.wizard.page;
 
 import com.vanxacloud.appstudio.proximity.config.Constants;
+import com.vanxacloud.appstudio.proximity.config.LanguageConfig;
 import javafx.beans.binding.BooleanExpression;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.ActionEvent;
@@ -14,6 +15,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import net.synedra.validatorfx.Validator;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -28,6 +30,9 @@ public class ProjectPage implements WizardDialogPage {
         ------------------Project File: --------------------------------------------
         ------------------Error label ------------------------------------------
          */
+    @Autowired
+    private LanguageConfig languageConfig;
+
     @FXML
     public RadioButton newProjectRadioButton;
 

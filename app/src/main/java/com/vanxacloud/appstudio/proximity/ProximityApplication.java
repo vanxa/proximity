@@ -2,10 +2,13 @@ package com.vanxacloud.appstudio.proximity;
 
 import com.vanxacloud.appstudio.proximity.config.ConfigurationManager;
 import javafx.application.Application;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-public class Launcher {
+
+@SpringBootApplication
+public class ProximityApplication {
     public static void main(String[] args) {
         ConfigurationManager.getInstance().initialize();
-        Application.launch(ProximityApp.class, args);
+        Application.launch(JavaFxApplication.class, args);
     }
 }

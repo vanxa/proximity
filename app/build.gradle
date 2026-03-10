@@ -3,6 +3,8 @@ plugins {
     id 'jacoco'
     id 'jacoco-report-aggregation'
 
+    id 'org.springframework.boot' version '4.0.3'
+    id 'io.spring.dependency-management' version '1.1.7'
     id 'org.openjfx.javafxplugin' version '0.1.0'
     id 'application'
     id 'org.javamodularity.moduleplugin' version '1.8.15'
@@ -19,6 +21,7 @@ if (repositories.isEmpty()) {
 
 dependencies {
     jacocoAggregation project(':app')
+    implementation 'org.springframework.boot:spring-boot-starter'
     implementation("org.openjfx:javafx-controls:21.0.4")
     implementation("org.openjfx:javafx-fxml:19")
 
@@ -40,6 +43,7 @@ dependencies {
     implementation("ch.qos.logback:logback-classic:1.5.32")
 
 
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation "org.testfx:testfx-core:4.0.18"
     testImplementation 'org.assertj:assertj-core:3.27.7'
     testImplementation platform('org.junit:junit-bom:5.10.0')
@@ -58,8 +62,8 @@ javafx {
 }
 
 application {
-    mainModule.set("com.vanxacloud.appstudio.proximity")
-    mainClass.set("com.vanxacloud.appstudio.proximity.Launcher")
+//    mainModule.set("com.vanxacloud.appstudio.proximity")
+    mainClass.set("com.vanxacloud.appstudio.proximity.ProximityApplication")
 }
 
 distributions {
