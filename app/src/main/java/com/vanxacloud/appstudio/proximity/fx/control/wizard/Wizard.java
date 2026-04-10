@@ -20,13 +20,14 @@ public class Wizard {
 
     private static final Logger log = LoggerFactory.getLogger(Wizard.class);
     private final ApplicationContext ac;
+    private org.controlsfx.dialog.Wizard wizard;
 
     Wizard(ApplicationContext ac) {
         this.ac = ac;
     }
 
     public Settings show() {
-        org.controlsfx.dialog.Wizard wizard = initializeWizard();
+        this.wizard = initializeWizard();
         Optional<ButtonType> buttonTypeOptional = wizard.showAndWait();
         if (buttonTypeOptional.isEmpty()) {
             log.warn("Wizard not completed");
@@ -44,7 +45,7 @@ public class Wizard {
     }
 
 
-    private org.controlsfx.dialog.Wizard initializeWizard() {
+    org.controlsfx.dialog.Wizard initializeWizard() {
         try {
             org.controlsfx.dialog.Wizard wizard = new org.controlsfx.dialog.Wizard();
             List<WizardPane> pages = new ArrayList<>();
@@ -60,7 +61,10 @@ public class Wizard {
 
     }
 
-    public record Settings(ObservableMap<String, Object> settings) {
+    public org.controlsfx.dialog.Wizard getWizard() {
+        return wizard;
+    }
 
+    public record Settings(ObservableMap<String, Object> settings) {
     }
 }

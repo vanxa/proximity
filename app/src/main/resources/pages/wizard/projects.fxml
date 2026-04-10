@@ -18,7 +18,7 @@
 
     <center>
         <VBox>
-            <RadioButton toggleGroup="$projectChoice" selected="true">Temporary project in memory</RadioButton>
+            <RadioButton fx:id="temporaryProjectRadioButton" toggleGroup="$projectChoice" selected="true">Temporary project in memory</RadioButton>
             <Separator styleClass="p-10-0-10-0"/>
             <HBox styleClass="sp-50">
                 <VBox styleClass="sp-5" HBox.hgrow="ALWAYS">

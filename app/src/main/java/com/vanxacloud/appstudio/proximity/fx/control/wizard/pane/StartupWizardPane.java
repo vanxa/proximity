@@ -1,5 +1,6 @@
 package com.vanxacloud.appstudio.proximity.fx.control.wizard.pane;
 
+import com.vanxacloud.appstudio.proximity.GeneratedSkipCoverage;
 import com.vanxacloud.appstudio.proximity.fx.control.wizard.page.WizardDialogPage;
 import javafx.fxml.FXMLLoader;
 import javafx.util.Callback;
@@ -10,6 +11,7 @@ import org.springframework.util.ResourceUtils;
 import java.io.IOException;
 import java.net.URL;
 
+@GeneratedSkipCoverage
 public class StartupWizardPane extends WizardPane {
 
     private final FXMLLoader loader;
@@ -31,6 +33,7 @@ public class StartupWizardPane extends WizardPane {
     public void onEnteringPage(Wizard wizard) {
         WizardDialogPage controller = loader.getController();
         wizard.invalidProperty().bind(controller.isValid().not());
+        controller.changeState(wizard.getSettings());
     }
 
     @Override

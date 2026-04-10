@@ -43,8 +43,10 @@ dependencies {
     implementation("ch.qos.logback:logback-classic:1.5.32")
 
 
+    testImplementation("org.testfx:openjfx-monocle:21.0.2")
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation "org.testfx:testfx-core:4.0.18"
+    testImplementation "org.testfx:testfx-junit5:4.0.18"
     testImplementation 'org.assertj:assertj-core:3.27.7'
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation('org.junit.jupiter:junit-jupiter')
@@ -54,6 +56,7 @@ dependencies {
 test {
     finalizedBy jacocoTestReport // report is always generated after tests run
     useJUnitPlatform()
+    jvmArgs "-Djava.awt.headless=true", "-Dtestfx.robot=glass", "-Dtestfx.headless=true", "-Dprism.order=sw", "-Dprism.text=t2k"
 }
 
 javafx {

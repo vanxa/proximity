@@ -9,6 +9,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 
 @SpringBootApplication
 @EnableConfigurationProperties(PropertiesConfiguration.class)
+@GeneratedSkipCoverage
 public class ProximityApplication {
     public static void main(String[] args) {
         ConfigurationManager.getInstance().initialize();

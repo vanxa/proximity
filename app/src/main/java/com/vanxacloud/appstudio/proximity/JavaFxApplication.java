@@ -13,6 +13,7 @@ import org.springframework.context.support.GenericApplicationContext;
 
 import java.io.IOException;
 
+@GeneratedSkipCoverage
 public class JavaFxApplication extends Application {
 
     private ConfigurableApplicationContext context;

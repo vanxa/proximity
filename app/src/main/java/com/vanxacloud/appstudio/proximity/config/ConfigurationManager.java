@@ -1,5 +1,6 @@
 package com.vanxacloud.appstudio.proximity.config;
 
+import org.apache.commons.lang3.SystemProperties;
 import org.apache.commons.lang3.SystemUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,7 +28,7 @@ public class ConfigurationManager {
             this.log = initializeLogging();
             this.initialized = true;
         }
-        this.log.debug("Running on {} Version {} Arch {}", SystemUtils.OS_NAME, SystemUtils.OS_VERSION, SystemUtils.OS_ARCH);
+        this.log.debug("Running on {} Version {} Arch {}", SystemProperties.getOsName(), SystemProperties.getOsVersion(), SystemProperties.getOsVersion());
     }
 
     private Logger initializeLogging() {
@@ -40,14 +41,14 @@ public class ConfigurationManager {
     private Path initDataDir() {
         try {
             Path basePath = null;
-            String configPath = System.getProperty("configPath", null);
+            String configPath = SystemProperties.getProperty("configPath");
             if (configPath != null) {
-                basePath = Paths.get(System.getProperty("configPath"));
+                basePath = Paths.get(configPath);
             } else {
                 if (SystemUtils.IS_OS_WINDOWS) {
-                    basePath = Paths.get(System.getenv("APPDATA"), "proximity");
+                    basePath = Paths.get(SystemUtils.getEnvironmentVariable("APPDATA", "proximity"));
                 } else if (SystemUtils.IS_OS_LINUX) {
-                    basePath = Paths.get(System.getProperty("user.home"), ".config", "proximity");
+                    basePath = Paths.get(SystemProperties.getProperty("user.home"), ".config", "proximity");
                 }
                 if (basePath == null) {
                     throw new RuntimeException(String.format("Unsupported operating system - %s", SystemUtils.OS_NAME));
@@ -67,5 +68,7 @@ public class ConfigurationManager {
         return INSTANCE;
     }
 
-
+    Path getBasePath() {
+        return basePath;
+    }
 }

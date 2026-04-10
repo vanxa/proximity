@@ -17,9 +17,9 @@
 
     <center>
         <VBox>
-            <RadioButton toggleGroup="$settingsChoice" selected="true">Use defaults</RadioButton>
+            <RadioButton fx:id="defaultSettingsRadioButton" toggleGroup="$settingsChoice" selected="true">Use defaults</RadioButton>
             <Separator styleClass="p-10-0-10-0"/>
-            <RadioButton toggleGroup="$settingsChoice">Use settings saved with project</RadioButton>
+            <RadioButton fx:id="projectSettingsRadioButton" toggleGroup="$settingsChoice">Use settings saved with project</RadioButton>
             <Separator styleClass="p-10-0-10-0"/>
             <HBox styleClass="sp-50">
                 <RadioButton fx:id="existingSettingsFilePathRadioButton" toggleGroup="$settingsChoice">Load from configuration file</RadioButton>
@@ -28,7 +28,7 @@
                     <HBox styleClass="sp-5">
                         <TextField fx:id="existingSettingsFilePath" HBox.hgrow="ALWAYS"/>
                         <Label text="File:" minWidth="40" labelFor="$existingSettingsFilePath" alignment="CENTER_RIGHT"/>
-                        <Button id="openProjectButton" text="Choose File" onAction="#handleOpenSettingsFile"/>
+                        <Button fx:id="openProjectButton" text="Choose File" onAction="#handleOpenSettingsFile"/>
                     </HBox>
                 </VBox>
             </HBox>
