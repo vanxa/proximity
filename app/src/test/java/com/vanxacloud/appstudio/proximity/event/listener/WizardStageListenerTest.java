@@ -1,6 +1,7 @@
 package com.vanxacloud.appstudio.proximity.event.listener;
 
-import com.vanxacloud.appstudio.proximity.event.Events;
+import com.vanxacloud.appstudio.proximity.app.event.Events;
+import com.vanxacloud.appstudio.proximity.app.event.listener.WizardStageListener;
 import com.vanxacloud.appstudio.proximity.fx.control.wizard.Wizard;
 import javafx.collections.FXCollections;
 import javafx.stage.Stage;

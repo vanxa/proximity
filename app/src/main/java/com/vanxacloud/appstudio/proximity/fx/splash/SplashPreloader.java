@@ -13,6 +13,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
+/**
+ * This preload will display a splash image while starting the application. It will close just before the wizard is displayed
+ */
 @GeneratedSkipCoverage
 public class SplashPreloader extends Preloader {
     private Stage preloaderStage;

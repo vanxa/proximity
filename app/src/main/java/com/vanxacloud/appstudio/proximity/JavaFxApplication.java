@@ -1,6 +1,6 @@
 package com.vanxacloud.appstudio.proximity;
 
-import com.vanxacloud.appstudio.proximity.event.Events;
+import com.vanxacloud.appstudio.proximity.app.event.Events;
 import fr.brouillard.oss.cssfx.CSSFX;
 import javafx.application.Application;
 import javafx.application.HostServices;
