@@ -76,6 +76,10 @@ distributions {
     }
 }
 
+bootRun {
+    jvmArgs = ['-Djavafx.preloader=com.vanxacloud.appstudio.proximity.fx.splash.SplashPreloader']
+}
+
 
 jacocoTestReport {
     dependsOn test // tests are required to run before generating the report

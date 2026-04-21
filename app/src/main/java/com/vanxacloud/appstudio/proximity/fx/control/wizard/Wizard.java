@@ -48,6 +48,8 @@ public class Wizard {
     org.controlsfx.dialog.Wizard initializeWizard() {
         try {
             org.controlsfx.dialog.Wizard wizard = new org.controlsfx.dialog.Wizard();
+            wizard.getDialog().setHeight(1000);
+            wizard.getDialog().setWidth(1000);
             List<WizardPane> pages = new ArrayList<>();
             wizard.getDialog().setResizable(true);
             pages.add(new StartupWizardPane("pages/wizard/projects.fxml", clazz -> ac.getBean(ProjectPage.class)));
