@@ -17,6 +17,7 @@ import java.io.IOException;
 public class JavaFxApplication extends Application {
 
     private ConfigurableApplicationContext context;
+    private Stage mainStage;
 
 
     @Override
@@ -36,11 +37,13 @@ public class JavaFxApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         CSSFX.start();
+        this.mainStage = stage;
         this.context.publishEvent(new Events.ReadyForWizardEvent(stage));
     }
 
     @Override
     public void stop() throws Exception {
+        this.context.publishEvent(new Events.ApplicationStoppingEvent(this.mainStage));
         this.context.close();
         Platform.exit();
     }

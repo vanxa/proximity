@@ -8,6 +8,7 @@ import javafx.concurrent.Task;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.support.GenericApplicationContext;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 /**
  * The main app class responsible for managing the {@link ProximityProxy} lifecycle (start, stop) and displaying the main application GUI
@@ -49,25 +51,28 @@ public class MainApp {
                 updateMessage("Starting proxy . . .");
                 executorService.submit(proxy);
                 Thread.sleep(1000);
-                while (!(proxy.isInitialized() && proxy.isReady())) {
-//                    for (int i = 0; i < availableFriends.size(); i++) {
-//                        Thread.sleep(400);
-//                        updateProgress(i + 1, availableFriends.size());
-//                        String nextFriend = availableFriends.get(i);
-//                        foundFriends.add(nextFriend);
-//                        updateMessage("Finding friends . . . found " + nextFriend);
-//                    }
+                boolean initialized = false;
+                boolean ready = false;
+                while (!(initialized && ready)) {
+                    if (proxy.isInitialized()) {
+                        updateMessage("Proxy initialized");
+                        updateProgress(1, 2);
+                        initialized = true;
+                    }
+                    if (proxy.isReady()) {
+                        updateMessage("Proxy running");
+                        updateProgress(2, 2);
+                        ready = true;
+                    }
                     log.info("Sleeping");
                     Thread.sleep(1000);
                 }
                 log.info("Done");
-                updateMessage("Done.");
                 return true;
             }
         };
 
         splashLoader.showSplash(
-                stage,
                 proxyStartupTask,
                 () -> showMainStage(stage)
         );
@@ -75,16 +80,33 @@ public class MainApp {
     }
 
     private void showMainStage(Stage stage) {
-        FXMLLoader fxmlLoader = new FXMLLoader(JavaFxApplication.class.getResource("boot-view.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(JavaFxApplication.class.getResource("/boot-view.fxml"));
         try {
             Scene scene = new Scene(fxmlLoader.load(), 320, 240);
             stage.setTitle("Hello!");
             stage.setScene(scene);
+            stage.initStyle(StageStyle.DECORATED);
+            stage.setMaximized(true);
             scene.getStylesheets().add("/style.css");
             stage.show();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public void close() {
+        log.info("Closing application");
+        try {
+            log.debug("Shutting down thread pool");
+            executorService.shutdown();
+            log.info("Stopping proxy");
+            proxy.stop();
+            executorService.awaitTermination(1, TimeUnit.MINUTES);
+        } catch (InterruptedException e) {
+            log.warn("Interrupted while closing. Ignoring inerruption and proceeding with close");
+        }
+        log.info("Terminating");
+        executorService.shutdownNow();
     }
 
 

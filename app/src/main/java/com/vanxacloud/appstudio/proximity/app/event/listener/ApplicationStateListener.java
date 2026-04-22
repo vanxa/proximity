@@ -2,6 +2,8 @@ package com.vanxacloud.appstudio.proximity.app.event.listener;
 
 import com.vanxacloud.appstudio.proximity.app.MainApp;
 import com.vanxacloud.appstudio.proximity.app.event.Events;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.support.GenericApplicationContext;
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class ApplicationStateListener implements ApplicationListener<Events.ApplicationStateEvent> {
 
+    private static final Logger log = LoggerFactory.getLogger(ApplicationStateListener.class);
     private final ApplicationContext ac;
     private final MainApp app;
 
@@ -33,15 +36,16 @@ public class ApplicationStateListener implements ApplicationListener<Events.Appl
     }
 
     private void handleRunning(Events.ApplicationRunningEvent ev) {
-
+        log.info("RUNNING");
     }
 
     private void handleClose(Events.ApplicationStoppedEvent ev) {
-
+        log.info("CLOSE");
     }
 
     private void stopApplication(Events.ApplicationStoppingEvent ev) {
-
+        log.info("STOP");
+        app.close();
     }
 
     private void startApplication(Events.ApplicationStartingEvent ev) {
